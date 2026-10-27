@@ -87,17 +87,25 @@ h1 { font-family:var(--site-font-heading); font-size:calc(32px * var(--site-head
 .battle-timer { padding:5px 9px; border-radius:999px; background:#fff4d6; color:#8c5a00; white-space:nowrap; }
 .battle-field { height:180px; position:relative; overflow:hidden; border-radius:14px; background:linear-gradient(#C7EDFF 0%,#E7F8D8 72%,#9BD66E 72%); border-bottom:5px solid #65B848; }
 .battle-sun { position:absolute; right:16px; top:12px; font-size:25px; }
-.battle-plant { position:absolute; left:22px; bottom:16px; font-size:46px; filter:drop-shadow(0 2px 0 #4C8D30); }
+.battle-plant { position:absolute; left:24px; bottom:12px; font-size:58px; filter:drop-shadow(0 2px 0 #4C8D30); }
 .battle-lane { position:absolute; left:80px; right:70px; bottom:38px; height:4px; background:#86C963; border-radius:9px; }
 .battle-zombie { position:absolute; right:20px; bottom:20px; font-size:42px; transition:right .4s, transform .25s; }
 .battle-zombie.hit { animation:zombieHit .35s ease; }
 .battle-zombie.eating { transform:scale(1.18) rotate(-7deg); }
+.battle-plant.kick { animation:heroKick .5s ease-in-out; }
+.battle-zombie.kicked { animation:fattyFly .75s ease-in forwards; }
+.battle-zombie.counterkick { animation:fattyCounter .45s ease-in-out; }
+.battle-plant.fall { animation:heroFall .55s ease-in forwards; }
 .battle-arrow { position:absolute; left:76px; bottom:58px; font-size:26px; opacity:0; transform:translateX(0); }
 .battle-arrow.fly { opacity:1; animation:arrowFly .38s linear forwards; }
 .battle-arrow.miss { opacity:0; }
 .battle-status { font-size:12px; font-weight:900; text-align:center; margin-top:10px; color:#31552A; min-height:18px; }
 @keyframes arrowFly { from{transform:translateX(0)} to{transform:translateX(var(--arrow-distance,230px))} }
 @keyframes zombieHit { 0%,100%{filter:none} 50%{filter:brightness(1.8);transform:translateX(-8px) rotate(8deg)} }
+@keyframes heroKick { 0%,100%{transform:translateX(0) rotate(0)} 35%{transform:translateX(25px) rotate(-18deg)} 65%{transform:translateX(8px) rotate(8deg)} }
+@keyframes fattyFly { 0%{transform:translate(0,0) rotate(0) scale(1);opacity:1} 45%{transform:translate(75px,-65px) rotate(150deg) scale(.9);opacity:1} 100%{transform:translate(230px,40px) rotate(540deg) scale(.55);opacity:0} }
+@keyframes fattyCounter { 0%,100%{transform:translate(0,0) rotate(0)} 45%{transform:translate(-65px,-8px) rotate(-20deg)} }
+@keyframes heroFall { 0%,100%{transform:translate(0,0) rotate(0)} 55%{transform:translate(25px,12px) rotate(45deg)} }
 .battle-counts { display:flex; justify-content:center; flex-wrap:wrap; gap:7px; margin:10px 0 0; }
 .zombie-level-banner { display:flex; justify-content:space-between; align-items:center; gap:10px; margin:0 0 12px; padding:12px 15px; border-radius:15px; background:#F1F9E9; border:1px solid #D9EDCA; font-weight:900; }
 .zombie-level-track { height:7px; margin-top:7px; background:#DCEBCF; border-radius:99px; overflow:hidden; }
@@ -196,7 +204,7 @@ h1 { font-family:var(--site-font-heading); font-size:calc(32px * var(--site-head
     <section id="quizScreen" class="screen" aria-live="polite">
       <div class="quiz-top"><button class="close" onclick="goHome()" aria-label="退出课程">×</button><div class="quiz-bar"><div id="quizProgress"></div></div><div class="quiz-hearts">♥ <span id="hearts">5</span></div></div>
       <div class="zombie-level-banner" id="zombieLevelBanner" style="display:none"><div><span id="gameModeTitle">🧟 僵尸闯关</span> <span id="zombieLevelText">第 1 / 99 级</span><div class="zombie-level-track"><div id="zombieLevelProgress"></div></div></div><span id="zombieLevelStatus">答对升一级</span></div>
-      <div class="battle-arena" id="battleArena"><div class="battle-top"><span>🌻 老王的植物防线</span><span>🎯 答对发射　答错吃掉</span><span class="battle-timer" id="battleTimer">⏱ 15 秒</span></div><div class="battle-field" id="battleField"><span class="battle-sun">☀️</span><span class="battle-plant">🌻</span><span class="battle-lane"></span><span class="battle-arrow" id="battleArrow">➶</span><span class="battle-zombie" id="battleZombie">🧟</span></div><div class="battle-status" id="battleStatus">选答案即可自动发射！僵尸会持续前进。</div><div class="battle-counts" id="battleCounts"></div></div>
+      <div class="battle-arena" id="battleArena"><div class="battle-top"><span>🥋 动漫角色对决</span><span>🦶 答对踢飞小胖　💥 答错被踢飞</span><span class="battle-timer" id="battleTimer">⏱ 15 秒</span></div><div class="battle-field" id="battleField"><span class="battle-sun">✨</span><span class="battle-plant" id="battleHero">🥷</span><span class="battle-lane"></span><span class="battle-arrow" id="battleArrow"></span><span class="battle-zombie" id="battleZombie">🥋</span></div><div class="battle-status" id="battleStatus">你和动漫小胖面对面站好，选答案开始对决！</div><div class="battle-counts" id="battleCounts"></div></div>
       <div class="question-card">
         <div class="eyebrow" id="questionLabel">第 1 题 · 选择正确答案</div>
         <h2 id="questionText">“你好”用英语怎么说？</h2>
@@ -290,10 +298,47 @@ function updateGameLevel(){const level=Math.floor(xp/100)+1;const inLevel=xp%100
 function finishLesson(won99=false){if(battleClock){clearInterval(battleClock);battleClock=null;}battleBusy=false;lessonsCompleted++;const eaten=battleResults.filter(x=>!x).length;const survived=battleResults.filter(Boolean).length;$('quizScreen').style.display='none';$('resultScreen').style.display='block';$('resultScreen').querySelector('.trophy').textContent=won99?'👑':eaten?'🧟':'🏆';$('resultScreen').querySelector('h2').textContent=won99?'恭喜通关！99 级全部完成！':eaten?'游戏结束，植物被吃掉了！':'太棒了！完美守住防线！';$('resultScreen').querySelector('.result p').textContent=won99?'你完成了 99 级日常英语僵尸挑战！':eaten?'答错或超时会让僵尸突破防线。重新开始挑战吧！':'所有题目全部答对，成功守住植物防线！';$('resultCorrect').textContent=correctCount+'/'+answered;$('resultXp').textContent='+'+earned;$('resultAccuracy').textContent=Math.round(correctCount/Math.max(1,answered)*100)+'%';$('dailyText').textContent='本局答题 '+answered+' 道';$('dailyProgress').style.width=(answered/Math.max(1,questions.length)*100)+'%';$('streakCount').textContent='4';$('streakSide').textContent='4';const unlocked=[];if(lessonsCompleted>=1){$('badgeFirst').classList.add('unlocked');unlocked.push('🎯 解锁成就：初次挑战');}if(correctCount===questions.length){$('badgePerfect').classList.add('unlocked');unlocked.push('💯 解锁成就：全答对');}if(lessonsCompleted>=5){$('badgeFive').classList.add('unlocked');unlocked.push('🔥 解锁成就：五连练习');}updateGameLevel();if(unlocked.length){$('gameToast').textContent=unlocked.join('　');$('gameToast').className='game-toast show';}const battle=document.createElement('div');battle.className='battle-end';battle.innerHTML=won99?'👑 终极战报：成功通过全部 99 级！你是日常英语僵尸挑战冠军！':'🌻 本局战报：目标 '+questions.length+' 道题，实际答题 '+answered+' 道，发射命中 '+survived+' 支箭，僵尸突破 '+eaten+' 次。'+(eaten===0?'完美防守！植物们安全了！':'防线失守！再挑战一次吧！');const result=$('resultScreen').querySelector('.result');const old=result.querySelector('.battle-end');if(old)old.remove();result.insertBefore(battle,result.querySelector('.result-grid'));}
 function goHome(){if(battleClock){clearInterval(battleClock);battleClock=null;}battleBusy=false;$('quizScreen').style.display='none';$('resultScreen').style.display='none';$('homeScreen').style.display='block';}
 updateGameLevel();
+const originalStartLesson = startLesson;
+const originalCheckAnswer = checkAnswer;
+const originalTimeoutQuestion = timeoutQuestion;
+startLesson = function(course='daily') {
+  if(course!=='punch') return originalStartLesson(course);
+  if(battleClock) clearInterval(battleClock);
+  zombieMode=true; punchMode=true; zombieLevel=1; questions=shuffleQuestions(dailyQuestions).slice(0,1);
+  index=0; selected=-1; correctCount=0; answered=0; hearts=10; earned=0; battleResults=[]; battleBusy=false;
+  $('homeScreen').style.display='none'; $('resultScreen').style.display='none'; $('quizScreen').style.display='block'; $('gameToast').className='game-toast';
+  $('zombieLevelBanner').style.display='flex'; $('gameModeTitle').textContent='🥋 暴打小胖'; $('battleHero').textContent='🥷'; $('battleZombie').textContent='🥋';
+  $('battleHero').className='battle-plant'; $('battleZombie').className='battle-zombie'; $('battleZombie').style.right='20px';
+  $('battleStatus').textContent='你和动漫小胖面对面站好！答对一脚把小胖踢飞，答错就被小胖踢飞，游戏结束。';
+  $('battleCounts').innerHTML='<span class="battle-dot">1</span>'; updateZombieLevel(); renderQuestion();
+};
+checkAnswer = function() {
+  if(!punchMode) return originalCheckAnswer();
+  if(selected<0||battleBusy) return;
+  if(battleClock){clearInterval(battleClock);battleClock=null;}
+  const q=questions[index], good=selected===q.correct, buttons=[...$('answers').children];
+  battleBusy=true; answered++; battleResults.push(good); hearts=good?10:0;
+  if(good){correctCount++;earned+=10;xp+=10;} else {hearts=0;}
+  buttons.forEach((b,j)=>{b.disabled=true;if(j===q.correct)b.classList.add('correct');if(j===selected&&!good)b.classList.add('wrong');});
+  $('hearts').textContent=hearts; $('xpCount').textContent=xp;
+  $('feedback').className='feedback show '+(good?'good':'bad');
+  $('feedback').innerHTML=(good?'✅ <strong>答对了！一脚踢飞小胖！</strong> ':'💥 <strong>答错了！被小胖一脚踢飞，游戏结束！</strong> ')+q.explain;
+  $('checkBtn').disabled=true; $('battleHero').className='battle-plant '+(good?'kick':'fall'); $('battleZombie').className='battle-zombie '+(good?'kicked':'counterkick');
+  $('battleStatus').textContent=good?'🦶 KO！小胖飞出场外，准备下一关！':'💫 小胖反击成功！本局结束。';
+  $('quizProgress').style.width=(zombieLevel/99*100)+'%';
+  setTimeout(()=>{
+    if(!good){finishLesson(false);return;}
+    if(zombieLevel>=99){finishLesson(true);return;}
+    zombieLevel++; questions=shuffleQuestions(dailyQuestions).slice(0,1); index=0; selected=-1; battleBusy=false;
+    $('battleHero').className='battle-plant'; $('battleZombie').className='battle-zombie'; $('battleZombie').style.right='20px';
+    $('battleCounts').innerHTML='<span class="battle-dot">'+zombieLevel+'</span>';
+    $('battleStatus').textContent='🥷 小胖被踢飞！进入第 '+zombieLevel+' 关！'; updateZombieLevel(); renderQuestion();
+  },good?780:650);
+};
+timeoutQuestion = function(){if(!punchMode)return originalTimeoutQuestion();if(battleBusy)return;battleBusy=true;answered++;battleResults.push(false);hearts=0;$('hearts').textContent=0;$('battleHero').className='battle-plant fall';$('battleZombie').className='battle-zombie counterkick';$('battleStatus').textContent='⏰ 超时！小胖一脚把你踢飞，游戏结束！';$('feedback').className='feedback show bad';$('feedback').innerHTML='⏰ <strong>时间到！被小胖踢飞了！</strong> 正确答案：'+questions[index].answers[questions[index].correct]+'。'+questions[index].explain;setTimeout(()=>finishLesson(false),650);};
+const originalFinishLesson = finishLesson;
+finishLesson = function(won99=false){originalFinishLesson(won99);if(!punchMode&&!won99)return;const title=$('resultScreen').querySelector('h2'),desc=$('resultScreen').querySelector('.result p'),trophy=$('resultScreen').querySelector('.trophy'),report=$('resultScreen').querySelector('.battle-end');if(won99){trophy.textContent='🏆';title.textContent='恭喜通关！99 关全部完成！';desc.textContent='你连续答对 99 道英语题，把动漫小胖踢飞了 99 次！';if(report)report.innerHTML='🏆 终极战报：99 关全部通关！你是动漫踢飞小胖挑战冠军！';}else if(punchMode){trophy.textContent='💫';title.textContent='游戏结束！你被小胖踢飞了！';desc.textContent='答错或超时就会被小胖反击踢飞。重新挑战，争取连续答对更多关！';if(report)report.innerHTML='🥋 本局战报：挑战到第 '+zombieLevel+' 关，答对 '+correctCount+' 题。小胖反击成功，本局结束！';}};
 function lockedMessage(){alert('这是演示版：完成“打招呼”课程后，后续关卡可以在下一版中解锁。');}
 </script>
-</body>
-</html>
-
 </body>
 </html>
