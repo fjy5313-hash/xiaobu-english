@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>小步英语 · 学习演示</title>
+<style>
+:root {
+  --site-primary: #58CC02;
+  --site-on-primary: #173A08;
+  --site-secondary: #DDF7C9;
+  --site-on-secondary: #244B16;
+  --site-background: #F7FAF4;
+  --site-on-background: #243323;
+  --site-font-body: ui-rounded, "Arial Rounded MT Bold", system-ui, -apple-system, sans-serif;
+  --site-font-heading: ui-rounded, "Arial Rounded MT Bold", system-ui, -apple-system, sans-serif;
+  --site-heading-scale: 1;
+  --site-spacing-scale: 1;
+  --site-radius-scale: 1;
+  --site-decoration-opacity: 1;
+  color-scheme: light dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--site-font-body); background: var(--site-background); color: var(--site-on-background); }
+#app { min-height: 100vh; background-color: var(--site-background); color: var(--site-on-background); }
+button { font: inherit; cursor: pointer; }
+button:focus-visible { outline: 3px solid #1E88E5; outline-offset: 3px; }
+.shell { width: min(1100px, 100%); margin: 0 auto; padding: calc(24px * var(--site-spacing-scale)); }
+.topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; padding: 8px 0 24px; border-bottom: 1px solid #DFE8D9; }
+.brand { display:flex; align-items:center; gap:10px; font-weight:900; font-size:22px; color:#45A900; letter-spacing:-.5px; }
+.logo { width:40px; height:40px; display:grid; place-items:center; border-radius:14px; background:var(--site-primary); color:var(--site-on-primary); font-size:23px; box-shadow:0 4px 0 #3D9D00; }
+.stats { display:flex; gap:10px; align-items:center; }
+.stat { padding:9px 12px; border:1px solid #E1E8DC; border-radius:14px; background:light-dark(#FFFFFF,#202920); font-weight:800; white-space:nowrap; }
+.layout { display:grid; grid-template-columns:minmax(0,1fr) 290px; gap:28px; padding-top:26px; }
+.eyebrow { color:#6C7D66; font-size:12px; font-weight:900; letter-spacing:1.3px; text-transform:uppercase; }
+h1 { font-family:var(--site-font-heading); font-size:calc(32px * var(--site-heading-scale)); line-height:1.1; margin:8px 0 8px; letter-spacing:-1px; }
+.sub { color:#687765; margin:0; line-height:1.55; }
+.unit { margin-top:24px; border:1px solid #E0E8DA; border-radius:calc(24px * var(--site-radius-scale)); overflow:hidden; background:light-dark(#FFFFFF,#202920); }
+.course-choice { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top:20px; }
+.course-card { border:1px solid #DFE8D9; border-radius:18px; padding:16px; background:light-dark(#FFFFFF,#202920); text-align:left; color:var(--site-on-background); }
+.course-card strong { display:block; font-size:16px; margin:8px 0 5px; }
+.course-card span { display:block; color:#71806C; font-size:12px; line-height:1.5; }
+.course-card .course-icon { font-size:25px; }
+.course-card.daily-course { border-bottom:4px solid #58CC02; }
+.course-card.business-course { border-bottom:4px solid #6A8BFF; }
+.unit-head { padding:20px 22px; background:var(--site-secondary); color:var(--site-on-secondary); display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.unit-head h2 { margin:0 0 4px; font-size:19px; }
+.unit-head p { margin:0; font-size:13px; opacity:.8; }
+.pill { font-size:12px; font-weight:900; border-radius:999px; padding:7px 10px; background:#FFFFFFB8; white-space:nowrap; }
+.path { display:flex; flex-direction:column; align-items:center; padding:24px 16px 28px; gap:15px; }
+.lesson { width:76px; height:76px; border:0; border-radius:50%; background:var(--site-primary); color:var(--site-on-primary); box-shadow:0 6px 0 #3D9D00; display:grid; place-items:center; font-size:28px; transition:transform .15s, filter .15s; position:relative; }
+.lesson:hover { transform:translateY(-2px); filter:brightness(1.03); }
+.lesson small { position:absolute; bottom:-25px; font-size:11px; color:#74836F; font-weight:800; white-space:nowrap; }
+.lesson.done { background:#E5F8D8; box-shadow:0 6px 0 #B8E69D; color:#398A00; }
+.lesson.locked { background:#E9EEE5; box-shadow:0 6px 0 #D5DED0; color:#A1ADA0; cursor:not-allowed; }
+.lesson-row { display:flex; align-items:center; justify-content:center; gap:36px; width:100%; }
+.path-note { margin-top:7px; font-size:12px; color:#7C8A77; }
+.side-card { border:1px solid #E0E8DA; background:light-dark(#FFFFFF,#202920); border-radius:22px; padding:20px; margin-bottom:16px; }
+.side-title { font-weight:900; font-size:16px; margin-bottom:15px; }
+.daily { display:flex; align-items:center; gap:12px; }
+.daily-icon { width:46px; height:46px; display:grid; place-items:center; border-radius:15px; background:#FFF0C7; font-size:23px; }
+.daily strong { display:block; font-size:14px; }
+.daily span { display:block; color:#788575; font-size:12px; margin-top:4px; }
+.progress { height:9px; background:#EAF0E6; border-radius:99px; overflow:hidden; margin-top:15px; }
+.progress > div { height:100%; width:40%; background:var(--site-primary); border-radius:99px; transition:width .25s; }
+.streak { background:#FFF7E8; border-color:#F4E4C6; }
+.streak-big { font-size:28px; font-weight:950; color:#E28A00; }
+.streak p { color:#8D7856; font-size:12px; line-height:1.5; margin:4px 0 0; }
+.primary-btn { border:0; background:var(--site-primary); color:var(--site-on-primary); font-weight:950; padding:14px 18px; border-radius:15px; box-shadow:0 4px 0 #3D9D00; width:100%; }
+.primary-btn:active { transform:translateY(2px); box-shadow:0 2px 0 #3D9D00; }
+.secondary-btn { border:1px solid #DCE6D6; background:light-dark(#FFFFFF,#202920); color:var(--site-on-background); font-weight:800; padding:12px 15px; border-radius:14px; }
+.screen { display:none; max-width:700px; margin:0 auto; padding:24px 0; }
+.screen.active { display:block; }
+.quiz-top { display:flex; align-items:center; gap:14px; margin-bottom:28px; }
+.close { border:0; background:transparent; font-size:25px; color:#82917B; padding:4px 8px; }
+.quiz-bar { height:12px; flex:1; background:#E6EEE1; border-radius:99px; overflow:hidden; }
+.quiz-bar div { height:100%; width:0%; background:var(--site-primary); transition:width .2s; }
+.quiz-hearts { font-weight:900; color:#EF6A79; white-space:nowrap; }
+.question-card { background:light-dark(#FFFFFF,#202920); border:1px solid #E0E8DA; border-radius:24px; padding:26px; }
+.question-card h2 { font-size:25px; line-height:1.3; margin:10px 0 8px; }
+.question-card .hint { color:#758270; margin:0 0 22px; }
+.answers { display:grid; gap:11px; }
+.answer { text-align:left; padding:15px 16px; border:2px solid #E0E8DA; border-radius:15px; background:light-dark(#FFFFFF,#202920); color:var(--site-on-background); font-weight:800; display:flex; align-items:center; gap:12px; }
+.answer .letter { width:29px; height:29px; display:grid; place-items:center; border-radius:9px; background:#F0F5EC; color:#71816A; font-size:13px; }
+.answer:hover:not(:disabled) { border-color:#A6D98C; }
+.answer.selected { border-color:#69B83A; background:#F2FBEA; }
+.answer.correct { border-color:#58B934; background:#ECF9E5; }
+.answer.wrong { border-color:#E77A7A; background:#FFF0F0; }
+.feedback { display:none; margin-top:16px; border-radius:14px; padding:14px; font-size:14px; line-height:1.5; }
+.feedback.show { display:block; }
+.feedback.good { background:#EAF9E3; color:#2E7517; }
+.feedback.bad { background:#FFF0EF; color:#A43B38; }
+.quiz-actions { display:flex; gap:12px; margin-top:20px; }
+.quiz-actions button { flex:1; }
+.result { text-align:center; padding:35px 20px; background:light-dark(#FFFFFF,#202920); border:1px solid #E0E8DA; border-radius:26px; }
+.trophy { font-size:68px; }
+.result h2 { font-size:30px; margin:10px 0; }
+.result p { color:#71806C; line-height:1.6; }
+.result-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:25px 0; }
+.result-stat { background:#F0F7EB; border-radius:15px; padding:14px 6px; }
+.result-stat strong { display:block; font-size:22px; color:#399B00; }
+.result-stat span { font-size:12px; color:#71806C; }
+.footer { color:#8B9786; font-size:11px; text-align:center; padding:24px 0 5px; }
+@media (max-width:760px) { .shell { padding:16px; } .layout { grid-template-columns:1fr; gap:14px; } .stats { gap:6px; } .stat { padding:8px; font-size:12px; } .brand { font-size:18px; } .logo { width:34px; height:34px; } h1 { font-size:29px; } .side-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; } .side-card { margin-bottom:0; padding:15px; } .streak { grid-column:1/-1; } .unit { margin-top:18px; } .course-choice { gap:8px; } .course-card { padding:12px; } .question-card { padding:20px; } .question-card h2 { font-size:22px; } }
+@media (prefers-color-scheme:dark) { .topbar { border-color:#344033; } .stat,.unit,.side-card,.question-card,.result { border-color:#344033; } .sub,.hint,.path-note { color:#A5B2A0; } .lesson.locked { background:#343D32; box-shadow:0 6px 0 #293127; color:#6E7A69; } .answer { border-color:#3B4838; } .answer .letter { background:#303B2D; color:#B4C1AE; } .answer.selected,.answer.correct { background:#243A1D; } .answer.wrong { background:#452A29; } .progress,.quiz-bar { background:#354132; } .result-stat { background:#263624; } .streak { background:#332D20; border-color:#51442B; } .streak p { color:#C5B18C; } }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand"><div class="logo">✦</div><span>小步英语</span></div>
+      <div class="stats"><div class="stat">🔥 <span id="streakCount">3</span></div><div class="stat">⚡ <span id="xpCount">20</span> XP</div></div>
+    </header>
+
+    <main id="homeScreen">
+      <div class="layout">
+        <section>
+          <div class="eyebrow">你的学习旅程 · 第 1 单元</div>
+          <h1>每天进步一点点！</h1>
+          <p class="sub">选择你今天想练习的内容，循序渐进学英语。</p>
+          <div class="course-choice" aria-label="选择课程类型">
+            <button class="course-card daily-course" onclick="startLesson('daily')"><div class="course-icon">🌞</div><strong>日常英语</strong><span>打招呼、自我介绍、购物与旅行</span></button>
+            <button class="course-card business-course" onclick="startLesson('business')"><div class="course-icon">💼</div><strong>商务英语</strong><span>介绍业务、客户沟通与商务会话</span></button>
+          </div>
+          <div class="unit">
+            <div class="unit-head"><div><h2>基础入门：打招呼</h2><p>认识常用表达，开启第一段对话</p></div><span class="pill">第 1 关</span></div>
+            <div class="path">
+              <button class="lesson done" aria-label="复习单词" onclick="startLesson(0)">✓<small>复习单词</small></button>
+              <div class="lesson-row"><button class="lesson" onclick="startLesson(0)" aria-label="打招呼">👋<small>打招呼</small></button><button class="lesson locked" onclick="lockedMessage()" aria-label="锁定课程">🔒<small>自我介绍</small></button></div>
+              <button class="lesson locked" onclick="lockedMessage()" aria-label="锁定课程">🎧<small>听力练习</small></button>
+              <div class="path-note">完成当前课程即可解锁更多关卡</div>
+            </div>
+          </div>
+        </section>
+        <aside>
+          <div class="side-card">
+            <div class="side-title">🎯 今日目标</div>
+            <div class="daily"><div class="daily-icon">📚</div><div><strong>完成 5 道练习</strong><span id="dailyText">已完成 0 / 5 道</span></div></div>
+            <div class="progress"><div id="dailyProgress"></div></div>
+          </div>
+          <div class="side-card streak"><div class="side-title">🔥 连续学习</div><div class="streak-big"><span id="streakSide">3</span> 天</div><p>保持节奏！每天练习几分钟，让学习成为习惯。</p></div>
+          <div class="side-card"><div class="side-title">🚀 准备好了吗？</div><p class="sub" style="font-size:13px;margin-bottom:15px">开始今天的第一节课，答题就能获得经验值。</p><button class="primary-btn" onclick="startLesson(0)">开始学习　→</button></div>
+        </aside>
+      </div>
+    </main>
+
+    <section id="quizScreen" class="screen" aria-live="polite">
+      <div class="quiz-top"><button class="close" onclick="goHome()" aria-label="退出课程">×</button><div class="quiz-bar"><div id="quizProgress"></div></div><div class="quiz-hearts">♥ <span id="hearts">5</span></div></div>
+      <div class="question-card">
+        <div class="eyebrow" id="questionLabel">第 1 题 · 选择正确答案</div>
+        <h2 id="questionText">“你好”用英语怎么说？</h2>
+        <p class="hint" id="questionHint">选择一个最自然的表达。</p>
+        <div class="answers" id="answers"></div>
+        <div class="feedback" id="feedback"></div>
+        <div class="quiz-actions"><button class="secondary-btn" onclick="goHome()">暂时退出</button><button id="checkBtn" class="primary-btn" onclick="checkAnswer()" disabled>检查答案</button></div>
+      </div>
+    </section>
+
+    <section id="resultScreen" class="screen">
+      <div class="result"><div class="trophy">🏆</div><div class="eyebrow">课程完成</div><h2>太棒了！你做到了！</h2><p>每一次练习，都是在为更流利的英语打基础。</p><div class="result-grid"><div class="result-stat"><strong id="resultCorrect">0/5</strong><span>答对题数</span></div><div class="result-stat"><strong id="resultXp">+0</strong><span>获得经验</span></div><div class="result-stat"><strong id="resultAccuracy">0%</strong><span>正确率</span></div></div><button class="primary-btn" onclick="goHome()">返回学习地图</button></div>
+    </section>
+    <div class="footer">交互式演示原型 · 学习数据仅在当前页面临时记录</div>
+  </div>
+</div>
+<script>
+const dailyQuestions = [
+  {q:'“你好”用英语怎么说？',hint:'最常见的日常问候。',answers:['Hello','Goodbye','Sorry','Thanks'],correct:0,explain:'Hello = 你好。可以用于大多数日常打招呼的场景。'},
+  {q:'别人说 “Thank you.”，你可以回答？',hint:'表达“不客气”。',answers:['Good night','You’re welcome','I’m sorry','See you'],correct:1,explain:'You’re welcome = 不客气，是回应感谢的自然表达。'},
+  {q:'“我叫 Alex。” 哪个表达正确？',hint:'用英语介绍自己的名字。',answers:['I Alex.','My name Alex.','My name is Alex.','I am name Alex.'],correct:2,explain:'My name is Alex. = 我叫 Alex。结构是 My name is + 名字。'},
+  {q:'早上见面时，通常说什么？',hint:'早晨的问候语。',answers:['Good morning','Good evening','Goodbye','Good afternoon'],correct:0,explain:'Good morning = 早上好。通常用于上午。'},
+  {q:'“很高兴认识你。” 哪个表达最合适？',hint:'初次见面时常用。',answers:['Nice to meet you.','Nice meet you.','Meet you nice.','I nice to meet.'],correct:0,explain:'Nice to meet you. = 很高兴认识你。初次见面时非常实用。'}
+];
+const businessQuestions = [
+  {q:'客户问 “What kind of business are you in?”，意思是？',hint:'客户想了解你的行业。',answers:['你住在哪里？','你做什么行业？','你几岁？','你什么时候来？'],correct:1,explain:'What kind of business are you in? = 你从事什么行业？可以回答：I’m in the tobacco business.（我从事烟草行业。）请遵守当地相关法律法规。'},
+  {q:'“我做批发。” 哪个表达自然？',hint:'wholesale 是“批发”。',answers:['I sell wholesale.','I sell yesterday.','I am wholesale sell.','I selling whole.'],correct:0,explain:'I sell wholesale. = 我做批发。也可以说：We specialize in wholesale.（我们专做批发。）'},
+  {q:'客户说 “Could you send me your price list?”，他想要什么？',hint:'price list 是价格表。',answers:['产品目录以外的地址','你的价格表','你的护照','会议记录'],correct:1,explain:'Could you send me your price list? = 你能把价格表发给我吗？可以回答：Sure, I’ll send it to you.（当然，我会发给你。）'},
+  {q:'“很高兴与您合作。” 哪个表达合适？',hint:'商务场合常用的礼貌表达。',answers:['Nice working with you.','Nice sleep you.','Work you nice.','I nice business.'],correct:0,explain:'Nice working with you. = 很高兴与您合作。结束会议或合作交流时可以使用。'},
+  {q:'客户问 “What is your minimum order quantity?”，意思是？',hint:'minimum order quantity 常缩写为 MOQ。',answers:['最晚交货日期是什么？','最低订购量是多少？','你们办公室在哪里？','付款方式是什么？'],correct:1,explain:'What is your minimum order quantity? = 最低订购量是多少？MOQ 是 Minimum Order Quantity 的缩写。'}
+];
+let questions = dailyQuestions;
+let index=0, selected=-1, correctCount=0, xp=20, answered=0, hearts=5, earned=0;
+const $ = id => document.getElementById(id);
+function showScreen(id){['homeScreen','quizScreen','resultScreen'].forEach(x=>$(x).style.display=x===id?'block':'none'); if(id==='homeScreen') $('homeScreen').style.display='block';}
+function startLesson(course='daily'){questions=course==='business'?businessQuestions:dailyQuestions;index=0;selected=-1;correctCount=0;answered=0;hearts=5;earned=0;$('homeScreen').style.display='none';$('resultScreen').style.display='none';$('quizScreen').style.display='block';renderQuestion();}
+function renderQuestion(){const q=questions[index];selected=-1;$('questionLabel').textContent=`第 ${index+1} 题 · 选择正确答案`;$('questionText').textContent=q.q;$('questionHint').textContent=q.hint;$('quizProgress').style.width=(index/questions.length*100)+'%';$('hearts').textContent=hearts;$('feedback').className='feedback';$('feedback').textContent='';$('checkBtn').textContent='检查答案';$('checkBtn').disabled=true;const letters=['A','B','C','D'];$('answers').innerHTML='';q.answers.forEach((a,i)=>{const b=document.createElement('button');b.className='answer';b.innerHTML=`<span class="letter">${letters[i]}</span><span>${a}</span>`;b.onclick=()=>selectAnswer(i);$('answers').appendChild(b);});}
+function selectAnswer(i){if($('checkBtn').textContent==='继续')return;selected=i;[...$('answers').children].forEach((b,j)=>b.classList.toggle('selected',j===i));$('checkBtn').disabled=false;}
+function checkAnswer(){if(selected<0)return;const q=questions[index];const buttons=[...$('answers').children];if($('checkBtn').textContent==='继续'||$('checkBtn').textContent==='查看结果'){index++;if(index>=questions.length){finishLesson();return;}renderQuestion();return;}answered++;const good=selected===q.correct;if(good){correctCount++;earned+=10;xp+=10;}else{hearts=Math.max(0,hearts-1);}buttons.forEach((b,j)=>{b.disabled=true;if(j===q.correct)b.classList.add('correct');if(j===selected&&!good)b.classList.add('wrong');});$('hearts').textContent=hearts;$('xpCount').textContent=xp;const f=$('feedback');f.className='feedback show '+(good?'good':'bad');f.innerHTML=(good?'✅ <strong>回答正确！</strong> ':'💡 <strong>再记一下：</strong> ')+q.explain;$('checkBtn').textContent=index===questions.length-1?'查看结果':'继续';$('checkBtn').disabled=false;$('quizProgress').style.width=((index+1)/questions.length*100)+'%';}
+function finishLesson(){$('quizScreen').style.display='none';$('resultScreen').style.display='block';$('resultCorrect').textContent=correctCount+'/'+questions.length;$('resultXp').textContent='+'+earned;$('resultAccuracy').textContent=Math.round(correctCount/questions.length*100)+'%';$('dailyText').textContent='已完成 '+questions.length+' / 5 道';$('dailyProgress').style.width='100%';$('streakCount').textContent='4';$('streakSide').textContent='4';}
+function goHome(){$('quizScreen').style.display='none';$('resultScreen').style.display='none';$('homeScreen').style.display='block';}
+function lockedMessage(){alert('这是演示版：完成“打招呼”课程后，后续关卡可以在下一版中解锁。');}
+</script>
+</body>
+</html>
