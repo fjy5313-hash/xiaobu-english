@@ -43,6 +43,12 @@ h1 { font-family:var(--site-font-heading); font-size:calc(32px * var(--site-head
 .course-card .course-icon { font-size:25px; }
 .course-card.daily-course { border-bottom:4px solid #58CC02; }
 .course-card.business-course { border-bottom:4px solid #6A8BFF; }
+.business-lessons { margin-top:18px; display:grid; gap:10px; }
+.business-lesson { display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:14px; border:1px solid #DFE8D9; border-radius:16px; background:light-dark(#FFFFFF,#202920); color:var(--site-on-background); }
+.business-lesson .lesson-icon { width:42px; height:42px; flex:0 0 42px; display:grid; place-items:center; border-radius:13px; background:#EDF1FF; font-size:22px; }
+.business-lesson strong { display:block; font-size:14px; margin-bottom:4px; }
+.business-lesson span { display:block; font-size:12px; line-height:1.5; color:#71806C; }
+.business-lesson .lesson-arrow { margin-left:auto; font-size:20px; color:#6A8BFF; }
 .unit-head { padding:20px 22px; background:var(--site-secondary); color:var(--site-on-secondary); display:flex; align-items:center; justify-content:space-between; gap:10px; }
 .unit-head h2 { margin:0 0 4px; font-size:19px; }
 .unit-head p { margin:0; font-size:13px; opacity:.8; }
@@ -66,6 +72,35 @@ h1 { font-family:var(--site-font-heading); font-size:calc(32px * var(--site-head
 .streak { background:#FFF7E8; border-color:#F4E4C6; }
 .streak-big { font-size:28px; font-weight:950; color:#E28A00; }
 .streak p { color:#8D7856; font-size:12px; line-height:1.5; margin:4px 0 0; }
+.game-level { margin-top:14px; padding:13px; border-radius:16px; background:#F1F9E9; border:1px solid #D9EDCA; }
+.game-level-top { display:flex; align-items:center; justify-content:space-between; gap:8px; font-size:12px; font-weight:900; }
+.level-track { height:8px; background:#DCEBCF; border-radius:99px; overflow:hidden; margin-top:9px; }
+.level-track div { height:100%; width:20%; background:#58CC02; border-radius:99px; transition:width .25s; }
+.achievement-list { display:flex; flex-wrap:wrap; gap:8px; }
+.achievement { padding:8px 10px; border-radius:12px; background:#F2F5EF; color:#9AA495; border:1px solid #E0E8DA; font-size:12px; font-weight:800; }
+.achievement.unlocked { background:#FFF4D6; color:#986100; border-color:#F4D68A; }
+.game-toast { display:none; margin-top:12px; padding:12px; border-radius:13px; background:#FFF4D6; color:#8C5A00; font-weight:800; font-size:13px; }
+.game-toast.show { display:block; }
+.battle-arena { margin:0 0 18px; padding:14px; border:1px solid #C8DDBB; border-radius:20px; background:linear-gradient(#DDF5FF 0%,#EAF8D9 62%,#B7E38D 62%,#B7E38D 100%); overflow:hidden; }
+.battle-top { display:flex; justify-content:space-between; gap:8px; align-items:center; font-size:12px; font-weight:900; color:#31552A; margin-bottom:10px; }
+.battle-field { height:180px; position:relative; overflow:hidden; border-radius:14px; background:linear-gradient(#C7EDFF 0%,#E7F8D8 72%,#9BD66E 72%); border-bottom:5px solid #65B848; }
+.battle-sun { position:absolute; right:16px; top:12px; font-size:25px; }
+.battle-plant { position:absolute; left:22px; bottom:16px; font-size:46px; filter:drop-shadow(0 2px 0 #4C8D30); }
+.battle-lane { position:absolute; left:80px; right:70px; bottom:38px; height:4px; background:#86C963; border-radius:9px; }
+.battle-zombie { position:absolute; right:20px; bottom:20px; font-size:42px; transition:right .4s, transform .25s; }
+.battle-zombie.hit { animation:zombieHit .35s ease; }
+.battle-zombie.eating { transform:scale(1.18) rotate(-7deg); }
+.battle-arrow { position:absolute; left:76px; bottom:58px; font-size:26px; opacity:0; transform:translateX(0); }
+.battle-arrow.fly { opacity:1; animation:arrowFly .38s linear forwards; }
+.battle-arrow.miss { opacity:0; }
+.battle-status { font-size:12px; font-weight:900; text-align:center; margin-top:10px; color:#31552A; min-height:18px; }
+@keyframes arrowFly { from{transform:translateX(0)} to{transform:translateX(var(--arrow-distance,230px))} }
+@keyframes zombieHit { 0%,100%{filter:none} 50%{filter:brightness(1.8);transform:translateX(-8px) rotate(8deg)} }
+.battle-counts { display:flex; justify-content:center; flex-wrap:wrap; gap:7px; margin:10px 0 0; }
+.battle-dot { width:22px; height:22px; border-radius:50%; display:grid; place-items:center; background:#E4EDE0; color:#71816A; font-size:11px; font-weight:900; }
+.battle-dot.hit { background:#C8F0B1; color:#287A12; }
+.battle-dot.eaten { background:#FFD7D2; color:#A43B38; }
+.battle-end { padding:15px; border-radius:15px; background:#F1F9E9; margin-top:14px; font-weight:800; line-height:1.7; }
 .primary-btn { border:0; background:var(--site-primary); color:var(--site-on-primary); font-weight:950; padding:14px 18px; border-radius:15px; box-shadow:0 4px 0 #3D9D00; width:100%; }
 .primary-btn:active { transform:translateY(2px); box-shadow:0 2px 0 #3D9D00; }
 .secondary-btn { border:1px solid #DCE6D6; background:light-dark(#FFFFFF,#202920); color:var(--site-on-background); font-weight:800; padding:12px 15px; border-radius:14px; }
@@ -123,6 +158,11 @@ h1 { font-family:var(--site-font-heading); font-size:calc(32px * var(--site-head
             <button class="course-card daily-course" onclick="startLesson('daily')"><div class="course-icon">🌞</div><strong>日常英语</strong><span>打招呼、自我介绍、购物与旅行</span></button>
             <button class="course-card business-course" onclick="startLesson('business')"><div class="course-icon">💼</div><strong>商务英语</strong><span>介绍业务、客户沟通与商务会话</span></button>
           </div>
+          <div class="business-lessons" aria-label="商务英语角色扮演课程">
+            <button class="business-lesson" onclick="startLesson('industry')"><div class="lesson-icon">🏢</div><div><strong>第 1 课：介绍你的行业</strong><span>说明你做什么生意、经营哪些产品</span></div><span class="lesson-arrow">›</span></button>
+            <button class="business-lesson" onclick="startLesson('wholesale')"><div class="lesson-icon">📦</div><div><strong>第 2 课：批发与订单</strong><span>批发销售、最低订购量、询价与报价</span></div><span class="lesson-arrow">›</span></button>
+            <button class="business-lesson" onclick="startLesson('customer')"><div class="lesson-icon">🤝</div><div><strong>第 3 课：客户沟通</strong><span>回应客户问题、确认交货与跟进订单</span></div><span class="lesson-arrow">›</span></button>
+          </div>
           <div class="unit">
             <div class="unit-head"><div><h2>基础入门：打招呼</h2><p>认识常用表达，开启第一段对话</p></div><span class="pill">第 1 关</span></div>
             <div class="path">
@@ -139,7 +179,8 @@ h1 { font-family:var(--site-font-heading); font-size:calc(32px * var(--site-head
             <div class="daily"><div class="daily-icon">📚</div><div><strong>完成 5 道练习</strong><span id="dailyText">已完成 0 / 5 道</span></div></div>
             <div class="progress"><div id="dailyProgress"></div></div>
           </div>
-          <div class="side-card streak"><div class="side-title">🔥 连续学习</div><div class="streak-big"><span id="streakSide">3</span> 天</div><p>保持节奏！每天练习几分钟，让学习成为习惯。</p></div>
+          <div class="side-card streak"><div class="side-title">🔥 连续学习</div><div class="streak-big"><span id="streakSide">3</span> 天</div><p>保持节奏！每天练习几分钟，让学习成为习惯。</p><div class="game-level"><div class="game-level-top"><span>⭐ <span id="levelName">英语新手 Lv.1</span></span><span id="levelXp">20 / 100 XP</span></div><div class="level-track"><div id="levelProgress"></div></div></div></div>
+          <div class="side-card"><div class="side-title">🏅 我的成就</div><div class="achievement-list"><span class="achievement" id="badgeFirst">🎯 初次挑战</span><span class="achievement" id="badgePerfect">💯 全答对</span><span class="achievement" id="badgeFive">🔥 五连练习</span></div><div class="game-toast" id="gameToast"></div></div>
           <div class="side-card"><div class="side-title">🚀 准备好了吗？</div><p class="sub" style="font-size:13px;margin-bottom:15px">开始今天的第一节课，答题就能获得经验值。</p><button class="primary-btn" onclick="startLesson(0)">开始学习　→</button></div>
         </aside>
       </div>
@@ -147,6 +188,7 @@ h1 { font-family:var(--site-font-heading); font-size:calc(32px * var(--site-head
 
     <section id="quizScreen" class="screen" aria-live="polite">
       <div class="quiz-top"><button class="close" onclick="goHome()" aria-label="退出课程">×</button><div class="quiz-bar"><div id="quizProgress"></div></div><div class="quiz-hearts">♥ <span id="hearts">5</span></div></div>
+      <div class="battle-arena" id="battleArena"><div class="battle-top"><span>🌻 老王的植物防线</span><span>🎯 答对发射　答错吃掉</span></div><div class="battle-field"><span class="battle-sun">☀️</span><span class="battle-plant">🌻</span><span class="battle-lane"></span><span class="battle-arrow" id="battleArrow">➶</span><span class="battle-zombie" id="battleZombie">🧟</span></div><div class="battle-status" id="battleStatus">答对题目，植物就会发射一支箭！</div><div class="battle-counts" id="battleCounts"></div></div>
       <div class="question-card">
         <div class="eyebrow" id="questionLabel">第 1 题 · 选择正确答案</div>
         <h2 id="questionText">“你好”用英语怎么说？</h2>
@@ -169,25 +211,73 @@ const dailyQuestions = [
   {q:'别人说 “Thank you.”，你可以回答？',hint:'表达“不客气”。',answers:['Good night','You’re welcome','I’m sorry','See you'],correct:1,explain:'You’re welcome = 不客气，是回应感谢的自然表达。'},
   {q:'“我叫 Alex。” 哪个表达正确？',hint:'用英语介绍自己的名字。',answers:['I Alex.','My name Alex.','My name is Alex.','I am name Alex.'],correct:2,explain:'My name is Alex. = 我叫 Alex。结构是 My name is + 名字。'},
   {q:'早上见面时，通常说什么？',hint:'早晨的问候语。',answers:['Good morning','Good evening','Goodbye','Good afternoon'],correct:0,explain:'Good morning = 早上好。通常用于上午。'},
-  {q:'“很高兴认识你。” 哪个表达最合适？',hint:'初次见面时常用。',answers:['Nice to meet you.','Nice meet you.','Meet you nice.','I nice to meet.'],correct:0,explain:'Nice to meet you. = 很高兴认识你。初次见面时非常实用。'}
+  {q:'“很高兴认识你。” 哪个表达最合适？',hint:'初次见面时常用。',answers:['Nice to meet you.','Nice meet you.','Meet you nice.','I nice to meet.'],correct:0,explain:'Nice to meet you. = 很高兴认识你。初次见面时非常实用。'},
+  {q:'“请问你叫什么名字？” 英语怎么说？',hint:'用 What is your…? 询问信息。',answers:['What is your name?','How your name?','Who name you?','What you called?'],correct:0,explain:'What is your name? = 请问你叫什么名字？更自然的回答是：My name is…'},
+  {q:'“再见，明天见。” 哪个表达正确？',hint:'See you 是“再见、回头见”。',answers:['See you tomorrow.','Tomorrow see I.','Look you tomorrow.','See tomorrow you.'],correct:0,explain:'See you tomorrow. = 明天见。See you + 时间，是常见的告别表达。'},
+  {q:'别人问 “How are you?”，哪种回答自然？',hint:'简单回应近况。',answers:['I’m fine, thank you.','I am name fine.','I fine yesterday.','Thank you goodbye.'],correct:0,explain:'I’m fine, thank you. = 我很好，谢谢。也可以简单说：I’m good, thanks.'},
+  {q:'“请帮我一下。” 哪个表达最礼貌？',hint:'Could you…? 可以礼貌地提出请求。',answers:['Could you help me, please?','You help me now!','Could help I?','Please you helping.'],correct:0,explain:'Could you help me, please? = 可以请你帮我一下吗？适合日常礼貌请求。'},
+  {q:'“多少钱？” 英语怎么问？',hint:'询问价格的常用句。',answers:['How much is it?','How many is it?','How old price?','What money it?'],correct:0,explain:'How much is it? = 多少钱？购物时非常实用。'},
+  {q:'“我不明白。” 哪个表达正确？',hint:'明白可以用 understand。',answers:['I don’t understand.','I no understand.','I am not understand.','I don’t understanding.'],correct:0,explain:'I don’t understand. = 我不明白。也可以礼貌地说：Could you repeat that, please?'}
 ];
 const businessQuestions = [
   {q:'客户问 “What kind of business are you in?”，意思是？',hint:'客户想了解你的行业。',answers:['你住在哪里？','你做什么行业？','你几岁？','你什么时候来？'],correct:1,explain:'What kind of business are you in? = 你从事什么行业？可以回答：I’m in the tobacco business.（我从事烟草行业。）请遵守当地相关法律法规。'},
   {q:'“我做批发。” 哪个表达自然？',hint:'wholesale 是“批发”。',answers:['I sell wholesale.','I sell yesterday.','I am wholesale sell.','I selling whole.'],correct:0,explain:'I sell wholesale. = 我做批发。也可以说：We specialize in wholesale.（我们专做批发。）'},
   {q:'客户说 “Could you send me your price list?”，他想要什么？',hint:'price list 是价格表。',answers:['产品目录以外的地址','你的价格表','你的护照','会议记录'],correct:1,explain:'Could you send me your price list? = 你能把价格表发给我吗？可以回答：Sure, I’ll send it to you.（当然，我会发给你。）'},
   {q:'“很高兴与您合作。” 哪个表达合适？',hint:'商务场合常用的礼貌表达。',answers:['Nice working with you.','Nice sleep you.','Work you nice.','I nice business.'],correct:0,explain:'Nice working with you. = 很高兴与您合作。结束会议或合作交流时可以使用。'},
-  {q:'客户问 “What is your minimum order quantity?”，意思是？',hint:'minimum order quantity 常缩写为 MOQ。',answers:['最晚交货日期是什么？','最低订购量是多少？','你们办公室在哪里？','付款方式是什么？'],correct:1,explain:'What is your minimum order quantity? = 最低订购量是多少？MOQ 是 Minimum Order Quantity 的缩写。'}
+  {q:'客户问 “What is your minimum order quantity?”，意思是？',hint:'minimum order quantity 常缩写为 MOQ。',answers:['最晚交货日期是什么？','最低订购量是多少？','你们办公室在哪里？','付款方式是什么？'],correct:1,explain:'What is your minimum order quantity? = 最低订购量是多少？MOQ 是 Minimum Order Quantity 的缩写。'},
+  {q:'客户说 “Could you give me a quotation?”，他需要什么？',hint:'quotation = 报价单、报价。',answers:['报价','送货地址','员工名单','会议时间'],correct:0,explain:'Could you give me a quotation? = 你能给我一份报价吗？可以回答：Sure, I’ll prepare a quotation.（当然，我会准备报价。）'},
+  {q:'“付款条件是什么？” 可以问：',hint:'payment terms = 付款条件。',answers:['What are your payment terms?','Where is your payment?','How old are your terms?','What time payment?'],correct:0,explain:'What are your payment terms? = 你们的付款条件是什么？'},
+  {q:'客户说 “I’d like to place an order.” 意思是？',hint:'place an order = 下订单。',answers:['我想下一个订单。','我想取消会议。','我想看办公室。','我想改价格表。'],correct:0,explain:'I’d like to place an order. = 我想下订单。I’d like to… 是礼貌表达“我想……”。'},
+  {q:'“库存有货吗？” 哪个表达自然？',hint:'in stock = 有库存、有现货。',answers:['Is it in stock?','Is stock your?','Do you stock it yesterday?','Where stock time?'],correct:0,explain:'Is it in stock? = 有现货吗？也可以问：Do you have this item in stock?'}
 ];
+const roleplayQuestions = {
+  industry: [
+    {q:'客户：What kind of business are you in? 你可以回答：',hint:'客户想知道你的行业。',answers:['I’m in the tobacco business.','I am business very.','I business yesterday.','I in office.'],correct:0,explain:'I’m in the tobacco business. = 我从事烟草行业。也可以把 tobacco 换成你实际经营的行业。请遵守当地相关法律法规。'},
+    {q:'客户：What products do you deal in? 意思是？',hint:'deal in = 经营、买卖某类产品。',answers:['你几点下班？','你经营哪些产品？','你住哪里？','你会开车吗？'],correct:1,explain:'What products do you deal in? = 你经营哪些产品？'},
+    {q:'“我们主要做批发。” 更自然的表达是：',hint:'mainly = 主要；wholesale = 批发。',answers:['We mainly do wholesale.','We main wholesale doing.','We are mainly wholesales.','We do wholesale yesterday.'],correct:0,explain:'We mainly do wholesale. = 我们主要做批发。也可以说 We specialize in wholesale.。'},
+    {q:'客户：How long have you been in business? 他在问什么？',hint:'How long have you been…? 询问持续多久。',answers:['你的价格是多少？','你从事这门生意多久了？','你几点开门？','你要多少货？'],correct:1,explain:'How long have you been in business? = 你做这门生意多久了？可以按真实情况回答：We’ve been in business for five years.（我们经营五年了。）'},
+    {q:'想礼貌地询问客户需要什么，可以说：',hint:'How can I help you? 是常见的服务表达。',answers:['How can I help you?','Why you here?','What you want now?','You buy or go?'],correct:0,explain:'How can I help you? = 我能为您做些什么？礼貌、自然，适合商务交流。'},
+    {q:'客户问 “Who are your main customers?”，意思是？',hint:'main customers = 主要客户。',answers:['你的主要客户是谁？','你的主要产品是什么？','你什么时候发货？','你在哪里办公？'],correct:0,explain:'Who are your main customers? = 你的主要客户是谁？请根据实际业务回答。'},
+    {q:'“我们专门做批发。” 哪个表达最自然？',hint:'specialize in = 专门从事。',answers:['We specialize in wholesale.','We special wholesale.','We are specialize wholesale.','We wholesale special yesterday.'],correct:0,explain:'We specialize in wholesale. = 我们专门做批发。specialize in 后面接领域或业务。'},
+    {q:'客户说 “Could you tell me more about your company?”，他想？',hint:'tell me more about = 多介绍一些。',answers:['了解更多公司情况','马上取消订单','知道你的年龄','索要私人密码'],correct:0,explain:'Could you tell me more about your company? = 能多介绍一下贵公司吗？可以简要介绍业务和服务。'},
+    {q:'“这是我们的产品目录。” 可以说：',hint:'product catalog = 产品目录。',answers:['This is our product catalog.','This our products catalog is yesterday.','Here catalog we yesterday.','Our product are catalog?'],correct:0,explain:'This is our product catalog. = 这是我们的产品目录。'}
+  ],
+  wholesale: [
+    {q:'客户：Do you sell wholesale or retail? 你回答：',hint:'wholesale = 批发；retail = 零售。',answers:['I sell wholesale.','I sell yesterday.','I wholesale selling am.','I sell very.'],correct:0,explain:'I sell wholesale. = 我做批发。也可以说 We sell our products wholesale.。'},
+    {q:'客户：Could you send me your price list? 你可以回答：',hint:'price list = 价格表。',answers:['Sure, I’ll send it to you.','I am price list.','No, you are send.','Tomorrow yesterday.'],correct:0,explain:'Sure, I’ll send it to you. = 当然，我会发给您。'},
+    {q:'MOQ 是什么意思？',hint:'MOQ 是商务采购常见缩写。',answers:['付款方式','最低订购量','送货地址','产品保质期'],correct:1,explain:'MOQ = Minimum Order Quantity，意思是最低订购量。'},
+    {q:'“请问每箱的价格是多少？” 可以说：',hint:'per carton = 每箱。',answers:['What is the price per carton?','Where is my carton?','How old is the price?','What time per carton?'],correct:0,explain:'What is the price per carton? = 请问每箱的价格是多少？'},
+    {q:'客户：Can you offer a better price? 意思是？',hint:'offer a better price = 提供更优惠的价格。',answers:['可以更快关门吗？','你能给更优惠的价格吗？','可以寄目录吗？','你们几点营业？'],correct:1,explain:'Can you offer a better price? = 你能给更优惠的价格吗？可以按实际情况回答：Let me check what I can offer.（我看看能给您什么价格。）'},
+    {q:'客户问 “Is there a discount for bulk orders?”，意思是？',hint:'bulk orders = 大批量订单；discount = 折扣。',answers:['大批量订单有折扣吗？','订单什么时候到？','你们在哪个国家？','可以换包装吗？'],correct:0,explain:'Is there a discount for bulk orders? = 大批量订单有折扣吗？'},
+    {q:'“报价有效期到月底。” 可以说：',hint:'valid until = 有效期至。',answers:['The quotation is valid until the end of the month.','The price is sleep end month.','Quotation valid yesterday.','The month is quotation.'],correct:0,explain:'The quotation is valid until the end of the month. = 报价有效期到月底。'},
+    {q:'客户问 “Do you accept bank transfers?”，他在问？',hint:'bank transfer = 银行转账。',answers:['你们接受银行转账吗？','你们几点关门？','你们有多少员工？','你们卖什么颜色？'],correct:0,explain:'Do you accept bank transfers? = 你们接受银行转账吗？请按实际付款政策回答。'},
+    {q:'“请确认订单数量。” 可以说：',hint:'Please + 动词，礼貌地提出请求。',answers:['Please confirm the order quantity.','Please quantity order yesterday.','Confirm you are quantity?','Please to order quantity.'],correct:0,explain:'Please confirm the order quantity. = 请确认订单数量。'}
+  ],
+  customer: [
+    {q:'客户：When can you deliver the order? 他在问什么？',hint:'deliver the order = 交付订单。',answers:['什么时候可以交货？','什么时候开会？','订单多少钱？','你在哪里？'],correct:0,explain:'When can you deliver the order? = 什么时候可以交货？'},
+    {q:'“我确认后尽快回复您。” 可以说：',hint:'get back to you = 回复你、再联系你。',answers:['I’ll get back to you as soon as I confirm.','I get you yesterday.','I am reply you fastly.','I confirm you later yesterday.'],correct:0,explain:'I’ll get back to you as soon as I confirm. = 我确认后尽快回复您。'},
+    {q:'客户：Could you confirm the order quantity? 你应该怎么做？',hint:'confirm = 确认；quantity = 数量。',answers:['确认订单数量','更改办公室地址','询问客户年龄','结束电话'],correct:0,explain:'Could you confirm the order quantity? = 您能确认一下订单数量吗？'},
+    {q:'“谢谢您的订单。” 最合适的表达是：',hint:'商务邮件和客户沟通常用。',answers:['Thank you for your order.','Thanks your ordering is.','You order thank.','Thank you order yesterday.'],correct:0,explain:'Thank you for your order. = 谢谢您的订单。'},
+    {q:'客户：Please keep me updated. 意思是？',hint:'keep me updated = 随时向我更新进展。',answers:['请让我保持安静。','请随时告知我最新进展。','请寄一份菜单。','请取消订单。'],correct:1,explain:'Please keep me updated. = 请随时告知我最新进展。可以回答：Of course. I’ll keep you updated.（当然，我会及时告知您。）'},
+    {q:'客户问 “Has the order been shipped?”，意思是？',hint:'shipped = 已发货。',answers:['订单发货了吗？','价格涨了吗？','你收到付款了吗？','订单取消了吗？'],correct:0,explain:'Has the order been shipped? = 订单发货了吗？可以按实际物流状态回答。'},
+    {q:'“我会尽快给您更新。” 可以说：',hint:'update you = 向你更新进展。',answers:['I’ll update you as soon as possible.','I update yesterday you.','I am soon possible update.','You update me fastly.'],correct:0,explain:'I’ll update you as soon as possible. = 我会尽快给您更新。'},
+    {q:'客户说 “Thank you for your quick response.”，你可以回答：',hint:'My pleasure = 我的荣幸、不客气。',answers:['My pleasure.','I response yesterday.','Thank you your quick.','No you response.'],correct:0,explain:'My pleasure. = 我的荣幸、不客气。是商务沟通中自然礼貌的回应。'},
+    {q:'“如果您有任何问题，请告诉我。” 可以说：',hint:'If you have any questions…',answers:['Please let me know if you have any questions.','You question tell me yesterday.','If questions you are?','Please know me your question.'],correct:0,explain:'Please let me know if you have any questions. = 如果您有任何问题，请告诉我。'}
+  ]
+};
 let questions = dailyQuestions;
-let index=0, selected=-1, correctCount=0, xp=20, answered=0, hearts=5, earned=0;
+let index=0, selected=-1, correctCount=0, xp=20, answered=0, hearts=5, earned=0, lessonsCompleted=0, battleResults=[], battleBusy=false;
 const $ = id => document.getElementById(id);
 function showScreen(id){['homeScreen','quizScreen','resultScreen'].forEach(x=>$(x).style.display=x===id?'block':'none'); if(id==='homeScreen') $('homeScreen').style.display='block';}
-function startLesson(course='daily'){questions=course==='business'?businessQuestions:dailyQuestions;index=0;selected=-1;correctCount=0;answered=0;hearts=5;earned=0;$('homeScreen').style.display='none';$('resultScreen').style.display='none';$('quizScreen').style.display='block';renderQuestion();}
+function shuffleQuestions(pool){const copy=[...pool];for(let i=copy.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[copy[i],copy[j]]=[copy[j],copy[i]];}return copy;}
+function startLesson(course='daily'){const pool=roleplayQuestions[course]||(course==='business'?businessQuestions:dailyQuestions);questions=shuffleQuestions(pool).slice(0,10);index=0;selected=-1;correctCount=0;answered=0;hearts=10;earned=0;battleResults=[];battleBusy=false;$('homeScreen').style.display='none';$('resultScreen').style.display='none';$('quizScreen').style.display='block';$('gameToast').className='game-toast';$('battleZombie').textContent='🧟';$('battleZombie').className='battle-zombie';$('battleZombie').style.right='20px';$('battleStatus').textContent='本局从 '+pool.length+' 道题中随机抽取 10 题。选错答案，僵尸立刻吃掉植物并结束游戏！';$('battleCounts').innerHTML='';for(let i=0;i<10;i++){const dot=document.createElement('span');dot.className='battle-dot';dot.textContent=i+1;$('battleCounts').appendChild(dot);}renderQuestion();}
 function renderQuestion(){const q=questions[index];selected=-1;$('questionLabel').textContent=`第 ${index+1} 题 · 选择正确答案`;$('questionText').textContent=q.q;$('questionHint').textContent=q.hint;$('quizProgress').style.width=(index/questions.length*100)+'%';$('hearts').textContent=hearts;$('feedback').className='feedback';$('feedback').textContent='';$('checkBtn').textContent='检查答案';$('checkBtn').disabled=true;const letters=['A','B','C','D'];$('answers').innerHTML='';q.answers.forEach((a,i)=>{const b=document.createElement('button');b.className='answer';b.innerHTML=`<span class="letter">${letters[i]}</span><span>${a}</span>`;b.onclick=()=>selectAnswer(i);$('answers').appendChild(b);});}
 function selectAnswer(i){if($('checkBtn').textContent==='继续')return;selected=i;[...$('answers').children].forEach((b,j)=>b.classList.toggle('selected',j===i));$('checkBtn').disabled=false;}
-function checkAnswer(){if(selected<0)return;const q=questions[index];const buttons=[...$('answers').children];if($('checkBtn').textContent==='继续'||$('checkBtn').textContent==='查看结果'){index++;if(index>=questions.length){finishLesson();return;}renderQuestion();return;}answered++;const good=selected===q.correct;if(good){correctCount++;earned+=10;xp+=10;}else{hearts=Math.max(0,hearts-1);}buttons.forEach((b,j)=>{b.disabled=true;if(j===q.correct)b.classList.add('correct');if(j===selected&&!good)b.classList.add('wrong');});$('hearts').textContent=hearts;$('xpCount').textContent=xp;const f=$('feedback');f.className='feedback show '+(good?'good':'bad');f.innerHTML=(good?'✅ <strong>回答正确！</strong> ':'💡 <strong>再记一下：</strong> ')+q.explain;$('checkBtn').textContent=index===questions.length-1?'查看结果':'继续';$('checkBtn').disabled=false;$('quizProgress').style.width=((index+1)/questions.length*100)+'%';}
-function finishLesson(){$('quizScreen').style.display='none';$('resultScreen').style.display='block';$('resultCorrect').textContent=correctCount+'/'+questions.length;$('resultXp').textContent='+'+earned;$('resultAccuracy').textContent=Math.round(correctCount/questions.length*100)+'%';$('dailyText').textContent='已完成 '+questions.length+' / 5 道';$('dailyProgress').style.width='100%';$('streakCount').textContent='4';$('streakSide').textContent='4';}
+function checkAnswer(){if(selected<0||battleBusy)return;const q=questions[index];const buttons=[...$('answers').children];if($('checkBtn').textContent==='继续'||$('checkBtn').textContent==='查看结果'){index++;if(index>=questions.length){finishLesson();return;}renderQuestion();return;}answered++;const good=selected===q.correct;battleBusy=true;battleResults.push(good);const dot=$('battleCounts').children[index];dot.classList.add(good?'hit':'eaten');const arrow=$('battleArrow'),zombie=$('battleZombie');arrow.className='battle-arrow';void arrow.offsetWidth;if(good){correctCount++;earned+=10;xp+=10;arrow.style.setProperty('--arrow-distance',Math.max(100,$('battleField').clientWidth||250)+'px');arrow.classList.add('fly');zombie.classList.add('hit');$('battleStatus').textContent='🎯 命中！答对了，继续守住防线！';}else{hearts=0;zombie.classList.add('eating');zombie.style.right='55px';$('battleStatus').textContent='💥 答错了！没有发射箭，僵尸直接吃掉植物！游戏结束！';}buttons.forEach((b,j)=>{b.disabled=true;if(j===q.correct)b.classList.add('correct');if(j===selected&&!good)b.classList.add('wrong');});$('hearts').textContent=hearts;$('xpCount').textContent=xp;const f=$('feedback');f.className='feedback show '+(good?'good':'bad');f.innerHTML=(good?'✅ <strong>回答正确！</strong> ':'💥 <strong>防线失守！本局结束。</strong> ')+q.explain;$('checkBtn').textContent=good?(index===questions.length-1?'查看结果':'继续'):'游戏结束';$('checkBtn').disabled=good?false:true;$('quizProgress').style.width=((index+1)/questions.length*100)+'%';setTimeout(()=>{arrow.className='battle-arrow';zombie.classList.remove('hit');battleBusy=false;if(!good)finishLesson();},good?420:500);}
+function updateGameLevel(){const level=Math.floor(xp/100)+1;const inLevel=xp%100;$('levelName').textContent=(level===1?'英语新手':level===2?'英语学徒':level===3?'英语达人':'英语高手')+' Lv.'+level;$('levelXp').textContent=inLevel+' / 100 XP';$('levelProgress').style.width=inLevel+'%';}
+function finishLesson(){lessonsCompleted++;const eaten=battleResults.filter(x=>!x).length;const survived=battleResults.filter(Boolean).length;$('quizScreen').style.display='none';$('resultScreen').style.display='block';$('resultScreen').querySelector('.trophy').textContent=eaten?'🧟':'🏆';$('resultScreen').querySelector('h2').textContent=eaten?'游戏结束，植物被吃掉了！':'太棒了！完美守住防线！';$('resultScreen').querySelector('.result p').textContent=eaten?'本局答错一题，僵尸立刻突破防线。重新开始挑战 10 道题吧！':'10 道题全部答对，成功守住植物防线！';$('resultCorrect').textContent=correctCount+'/'+answered;$('resultXp').textContent='+'+earned;$('resultAccuracy').textContent=Math.round(correctCount/Math.max(1,answered)*100)+'%';$('dailyText').textContent='本局答题 '+answered+' 道';$('dailyProgress').style.width=(answered/10*100)+'%';$('streakCount').textContent='4';$('streakSide').textContent='4';const unlocked=[];if(lessonsCompleted>=1){$('badgeFirst').classList.add('unlocked');unlocked.push('🎯 解锁成就：初次挑战');}if(correctCount===10){$('badgePerfect').classList.add('unlocked');unlocked.push('💯 解锁成就：全答对');}if(lessonsCompleted>=5){$('badgeFive').classList.add('unlocked');unlocked.push('🔥 解锁成就：五连练习');}updateGameLevel();if(unlocked.length){$('gameToast').textContent=unlocked.join('　');$('gameToast').className='game-toast show';}const battle=document.createElement('div');battle.className='battle-end';battle.innerHTML='🌻 本局战报：目标 10 道题，实际答题 '+answered+' 道，发射命中 '+survived+' 支箭，僵尸突破 '+eaten+' 次。'+(eaten===0?'完美防守！植物们安全了！':'防线失守！选错一次就会结束本局，再挑战一次吧！');const result=$('resultScreen').querySelector('.result');const old=result.querySelector('.battle-end');if(old)old.remove();result.insertBefore(battle,result.querySelector('.result-grid'));}
 function goHome(){$('quizScreen').style.display='none';$('resultScreen').style.display='none';$('homeScreen').style.display='block';}
+updateGameLevel();
 function lockedMessage(){alert('这是演示版：完成“打招呼”课程后，后续关卡可以在下一版中解锁。');}
 </script>
 </body>
